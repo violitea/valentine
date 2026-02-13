@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Alex 💖</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffc1dc, #fff0f7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* FULL SCREEN CLICK START */
+.start-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 200, 225, 0.97);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  text-align: center;
+}
+
+.start-text {
+  font-size: 26px;
+  color: #ff4d88;
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 35px;
+  border-radius: 30px;
+  width: 390px;
+  text-align: center;
+  box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+  z-index: 2;
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+  color: #ff4d88;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+button {
+  padding: 12px 30px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 8px;
+  transition: 0.3s;
+}
+
+.yes {
+  background: #ff4d88;
+  color: white;
+}
+
+.yes:hover {
+  transform: scale(1.15);
+  background: #ff2f73;
+}
+
+.no {
+  background: #eee;
+  color: #666;
+  position: absolute;
+}
+
+/* FLOATING */
+.float {
+  position: absolute;
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* CATS */
+.cats {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.cats img {
+  width: 85px;
+  border-radius: 18px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.18);
+}
+</style>
+</head>
+
+<body onclick="startLove()">
+
+<!-- CLICK ANYWHERE START -->
+<div class="start-screen" id="startScreen">
+  <div class="start-text">
+    Click anywhere to start 💖<br>
+    (Trust me 😌)
+  </div>
+</div>
+
+<!-- MUSIC -->
+<audio id="song" loop>
+  <source src="She.mp3" type="audio/mpeg">
+</audio>
+
+<!-- MAIN CARD -->
+<div class="card" id="card">
+  <h1>Hey Alex 🐱💗</h1>
+  <p>Will you be my Valentine?</p>
+  <button class="yes" onclick="nextStep()">Yes 😳</button>
+  <button class="no" onmouseover="runAway(this)">No</button>
+</div>
+
+<script>
+let started = false;
+let step = 0;
+
+function startLove() {
+  if (started) return;
+  started = true;
+
+  const audio = document.getElementById("song");
+  audio.play().catch(()=>{});
+
+  document.getElementById("startScreen").style.display = "none";
+}
+
+function nextStep() {
+  const card = document.getElementById("card");
+
+  const cats = `
+    <div class="cats">
+      <img src="https://placekitten.com/200/200">
+      <img src="https://placekitten.com/201/200">
+      <img src="https://placekitten.com/202/200">
+    </div>
+  `;
+
+  if (step === 0) {
+    card.innerHTML = `
+      <h1>WAIT 😭</h1>
+      <p>That was too fast… are you sure?</p>
+      <button class="yes" onclick="nextStep()">Yes 💗</button>
+      ${cats}
+    `;
+  } else if (step === 1) {
+    card.innerHTML = `
+      <h1>Think again 🥺</h1>
+      <p>This choice comes with unlimited love.</p>
+      <button class="yes" onclick="nextStep()">Still yes 😌</button>
+      ${cats}
+    `;
+  } else if (step === 2) {
+    card.innerHTML = `
+      <h1>One more 😈</h1>
+      <p>Say yes if you’re REALLY mine.</p>
+      <button class="yes" onclick="nextStep()">YES 😳💘</button>
+      ${cats}
+    `;
+  } else if (step === 3) {
+    card.innerHTML = `
+      <h1>LAST ONE 😭</h1>
+      <p>No turning back after this.</p>
+      <button class="yes" onclick="nextStep()">I choose you 💞</button>
+      ${cats}
+    `;
+  } else {
+    card.innerHTML = `
+      <h1>Happy Valentine’s Day 💖</h1>
+      <p>
+        Alex,<br><br>
+        Every time you clicked yes,
+        my heart chose you again.
+        Distance doesn’t scare me or matter to me i love you so much baby,
+        sorry i didnt get a gift for you on time but its coming anyways
+        <br><br>
+        Forever yours,<br>
+        <strong> your nonchalant girl Deemah 🐱💗</strong>
+      </p>
+      ${cats}
+    `;
+  }
+
+  step++;
+}
+
+function runAway(btn) {
+  const x = Math.random() * 300 - 150;
+  const y = Math.random() * 300 - 150;
+  btn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function float(symbol) {
+  const el = document.createElement("div");
+  el.className = "float";
+  el.innerHTML = symbol;
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.fontSize = Math.random() * 25 + 20 + "px";
+  el.style.animationDuration = Math.random() * 3 + 4 + "s";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 6000);
+}
+
+setInterval(() => {
+  float("💗");
+  float("🐱");
+}, 400);
+</script>
+
+</body>
+</html>
